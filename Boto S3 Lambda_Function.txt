@@ -1,0 +1,27 @@
+###python
+import json
+import boto3
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+
+    try:
+        response = s3.get_object(
+            Bucket='monicac-demo-s3',
+            Key='your-file.txt'
+        )
+
+        content = response['Body'].read().decode('utf-8')
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps(content)
+        }
+
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': str(e)
+        }
+```
